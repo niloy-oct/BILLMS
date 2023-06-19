@@ -1,0 +1,116 @@
+﻿
+@Html.Partial("_AlertMessage")
+@model List<BILMS.Models.Inventory>
+@{
+
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
+
+}
+<div class="page-title">
+    <div class="title_left" style="width: 100%">
+
+    </div>
+
+
+</div>
+<br />
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel" style="min-height: 400px;">
+            <div class="x_title">
+                <h2>&nbsp;All Bill List</h2>
+                <ul class="nav navbar-right panel_toolbox"></ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <form id="demo_form2" class="form-horizontal form-label-left">
+
+
+
+                    <div class="clearfix"></div>
+
+
+                    <div class="col-md-12">
+
+                        <div class="float-right">
+                            <a href="@Url.Action("Create", "Bill")" class="btn btn-primary"><i class="fa fa-plus"></i> Create New Bill</a>
+                        </div>
+
+                        <div id="someDiv"></div>
+                        <div class="table-responsive">
+                            <div style="overflow-x: auto;">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search by Bill No" aria-label="Search by Bill No">
+
+                                <br />
+                                <table id="ReportData" style="width:100%" class="table table-striped table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>Bill No</th>
+                                            <th>Bill Date</th>
+                                            <th>Total Amount</th>
+                                            <th>Paid Amount</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var data in Model)
+                                        {
+
+                                            <tr>
+                                                <td>@(Model.IndexOf(data) + 1)</td>
+                                                <td>@data.BillNo</td>
+                                                <td>@data.Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@data.TotalBillAmount</td>
+                                                <td>@data.PaidAmount</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", new { BillNo = data.BillNo })" class="btn btn-primary btn-sm btn-orange"><span class="fa fa-pencil"></span> Edit</a>
+
+                                                </td>
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        $(document).ready(function () {
+            // Get the table element and input field
+            var table = $('#ReportData');
+            var input = $('#searchInput');
+
+            // Attach a keyup event to the input field
+            input.on('keyup', function () {
+                // Get the search query from the input field
+                var query = $(this).val().toLowerCase().trim();
+
+                // Filter the rows in the table based on the search query
+                var rows = table.find('tbody > tr');
+                rows.each(function () {
+                    var row = $(this);
+                    var billNo = row.find('td:nth-child(2)').text().toLowerCase().trim();
+                    if (billNo.indexOf(query) !== -1) {
+                        row.show();
+                    } else {
+                        row.hide();
+                    }
+                });
+            });
+        });
+    </script>

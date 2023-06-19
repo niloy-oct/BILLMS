@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HPL  HR APP</title>
+
+    <link href="@Url.Content("~/NeyLayoutPage/assets/images/logos/hpl-task-bar.png")" rel="shortcut icon" type="image/x-icon" />
+
+    <link href="@Url.Content("~/NeyLayoutPage/assets/css/styles.min.css")" rel="stylesheet">
+
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6 col-xxl-3">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                @Html.Partial("_AlertMessage")
+                                <a href="@Url.Action("Login", "Account")" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="@Url.Content("~/NeyLayoutPage/assets/images/logos/favicon.png")" width="180" alt="">
+                                </a>
+                                <form method="post" asp-action="Login" id="formLogin">
+                                    <div class="mb-3">
+                                        <label for="tbxUserName" class="form-label">User ID</label>
+                                        <input type="text" name="UserName" class="form-control" id="tbxUserName" aria-describedby="emailHelp" placeholder="Enter your User ID : admin">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="tbxPassword" class="form-label">Password</label>
+                                        <input type="password" name="Password" class="form-control" id="tbxPassword" placeholder="Enter your password : 123">
+                                    </div>
+                                   
+                                    <input type="submit" name="Login" value="Login" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="@Url.Content("~/NeyLayoutPage/assets/libs/jquery/dist/jquery.min.js")"></script>
+    <script src="@Url.Content("~/NeyLayoutPage/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
+</body>
+
+</html>
+
+

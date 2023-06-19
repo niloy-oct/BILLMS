@@ -1,0 +1,418 @@
+﻿<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+@using BILMS.Models
+@model BILMS.ViewModels.BillEntryViewModel
+@{
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        @Html.Partial("_AlertMessage")
+        <div class="x_panel">
+            <div class="x_title">
+                <h2></h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                @using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "demo_form2", enctype = "multipart/form-data", @class = "form-horizontal form-label-left" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <div class="col-md-12">
+                            <div class="x_panel child">
+
+                                <div class="x_title">
+                                    <h2></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+
+                                        <li>
+
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="col-md-6 employeeinfo-left">
+                                        <div class="table-responsive">
+                                            <div>
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Bill No:</th>
+
+                                                            <td>
+                                                                @Html.TextBoxFor(model => model.BillNo, new { @class = "form-control" })
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Customer:</th>
+
+                                                            <td>
+                                                                @Html.DropDownList("CustomersList", new SelectList(ViewBag.Customers, "Value", "Text", ViewBag.SelectedCustomers), "-Select Customer- ", new { @class = "form-control select" })
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 employeeinfo-right">
+                                        <div class="table-responsive">
+                                            <div>
+
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Date:</th>
+
+                                                            <td>
+                                                                <div class="input-group date">
+                                                                    @Html.TextBoxFor(m => m.BillDate, new { @type = "text", @class = "form-control datepicker", @Value = Model.BillDate })
+
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="x_panel child">
+                                <div class="x_title">
+                                    <h2></h2>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <table id="productTable"
+                                       data-toggle="table"
+                                       data-height="280"
+                                       class="table table-bordered table-striped"
+                                       width="100%"
+                                       style="width: 100%">
+                                    <thead>
+                                        <tr>
+
+                                            <th class="text-center" data-field="ProductName" data-sortable="true" style="width : 20%;">Product</th>
+                                            <th class="text-center" data-field="Rate" data-sortable="true">Rate</th>
+                                            <th class="text-center" data-field="Qty" data-sortable="true">Qty</th>
+                                            <th class="text-center" data-field="TotalAmount" data-sortable="true">Total Amount</th>
+                                            <th class="text-center" data-field="Discount" data-sortable="true">Discount Amount</th>
+                                            <th class="text-center" data-field="NetAmount" data-sortable="true">Net Amount</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <td>
+                                        @Html.DropDownList("ProductsList", new SelectList(ViewBag.Products, "Value", "Text", ViewBag.SelectedProducts), "-Select Product- ", new { @class = "form-control select" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail.Rate, new { @class = "form-control", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail.Qty, new { @class = "form-control" })
+                                    </td>
+                                    <td>
+
+                                        @Html.TextBoxFor(model => model.Detail.TotalAmount, new { @class = "form-control", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+
+                                        @Html.TextBoxFor(model => model.Detail.Discount, new { @class = "form-control" })
+
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Detail.NetAmount, new { @class = "form-control", @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        <button type="submit" name="btnAdd" class="btn btn-primary float-right">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-md-12">
+                            <div class="x_panel child">
+                                <div class="x_title">
+                                    <h2>Added Bill Item</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <table id="productDetailTable"
+                                       data-toggle="table"
+                                       data-height="280"
+                                       class="table table-bordered table-striped"
+                                       width="100%"
+                                       style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Sl</th>
+                                            <th class="text-center" data-field="ProductName" data-sortable="true">Product Name</th>
+                                            <th class="text-center" data-field="Rate" data-sortable="true">Rate</th>
+                                            <th class="text-center" data-field="Qty" data-sortable="true">Qty</th>
+                                            <th class="text-center" data-field="TotalAmount" data-sortable="true">Total Amount</th>
+                                            <th class="text-center" data-field="Discount" data-sortable="true">Discount Amount</th>
+                                            <th class="text-center" data-field="NetAmount" data-sortable="true">Net Amount</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int i = 1;
+                                            if (Model.Details != null)
+                                            {
+                                                foreach (var item in Model.Details)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @i
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.ProductName)
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.DisplayFor(modelItem => item.Rate)
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.DisplayFor(modelItem => item.Qty)
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.DisplayFor(modelItem => item.Discount)
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.DisplayFor(modelItem => item.NetAmount)
+                                                        </td>
+                                                        <td>
+                                                            <a href="@Url.Action("DeleteFromView", new { ProductId = item.ProductId, previousAction = actionName })" onclick="if(!confirm('Are you sure?')) return false;" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+
+                                                        </td>
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="x_panel child">
+
+                                <div class="x_title">
+                                    <h2></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+
+                                        <li>
+
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="col-md-6 employeeinfo-left">
+                                        <div class="table-responsive">
+                                            <div>
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Net Total:</th>
+
+                                                            <td>
+                                                                @Html.TextBoxFor(model => model.NetAmt, new { @class = "form-control" })
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Discount Total:</th>
+
+                                                            <td>
+                                                                @Html.TextBoxFor(model => model.TotalDis, new { @class = "form-control" })
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 employeeinfo-right">
+                                        <div class="table-responsive">
+                                            <div>
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Paid Amount:</th>
+
+                                                            <td>
+                                                                @Html.TextBoxFor(model => model.PaidAmt, new { @class = "form-control" })
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-bordered  table-hover" cellspacing="0" rules="all" border="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 30%;">Due Amount:</th>
+
+                                                            <td>
+                                                                @Html.TextBoxFor(model => model.DueAmt, new { @class = "form-control" })
+                                                            </td>
+                                                            <td>
+                                                                <input type="submit" name="btnEdit" style="min-width: 120px;margin-left: 0;" value="Update Bill Entry" class="btn btn-primary float-right" />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        CalculateFinalAmount();
+        // Calculate TotalAmount and NetAmount on Qty and DiscountAmount change
+
+
+        $('#PaidAmt, #DueAmt').on('input', function () {
+            CalculateFinalAmount();
+
+        });
+
+        function CalculateFinalAmount() {
+            var paidAmt = parseFloat($('#PaidAmt').val());
+            var netAmt = parseFloat($('#NetAmt').val());
+
+            // Check for valid values
+            if (isNaN(paidAmt) || isNaN(netAmt)) {
+                alert.log('Invalid values detected');
+                return;
+            }
+
+            var dueAmt = netAmt - paidAmt;
+            $('#DueAmt').val(dueAmt.toFixed(2));
+        }
+
+
+        $("#ProductsList").change(function () {
+            // Get the selected product value
+            var selectedProduct = $(this).val();
+
+            // Make an AJAX call to retrieve product information
+            $.ajax({
+                url: '@Url.Action("GetProductInfo", "Bill")', // Replace with your actual URL for retrieving product information
+                type: 'GET',
+                data: { productId: selectedProduct },
+                success: function (response) {
+                    // Update the values of the text boxes with the retrieved product information
+                    $("#Detail_Rate").val(response.Rate);
+                    $("#Detail_Qty").val(response.Qty);
+                    $("#Detail_TotalAmount").val(response.TotalAmount);
+                    $("#Detail_Discount").val(response.DiscountAmount);
+                    $("#Detail_NetAmount").val(response.NetAmount);
+                },
+                error: function () {
+                    console.log("Error occurred while retrieving product information.");
+                }
+            });
+        });
+
+        $("#Detail_Qty, #Detail_Discount").on("input", function () {
+            // Get the values of Qty and Discount inputs
+            var qty = parseFloat($("#Detail_Qty").val());
+            var discount = parseFloat($("#Detail_Discount").val());
+
+            // Get the value of Rate input
+            var rate = parseFloat($("#Detail_Rate").val());
+
+            // Check if the values are valid numbers
+            if (isNaN(qty) || isNaN(discount) || isNaN(rate)) {
+              
+                qty = 0;
+                discount = 0;
+                rate = 0;
+            }
+
+            // Calculate Total Amount and Net Amount
+            var totalAmount = qty * rate;
+            var netAmount = totalAmount - discount;
+
+            // Update the values of Total Amount and Net Amount inputs
+            $("#Detail_TotalAmount").val(totalAmount.toFixed(2));
+            $("#Detail_NetAmount").val(netAmount.toFixed(2));
+        });
+
+    });
+</script>
+
+
+
+
