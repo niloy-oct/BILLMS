@@ -24,7 +24,7 @@
                 @using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "demo_form2", enctype = "multipart/form-data", @class = "form-horizontal form-label-left" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.ValidationSummary();
+                  
 
                 <div class="form-horizontal">
 
@@ -221,7 +221,11 @@
 
                                                         @Html.DisplayFor(modelItem => item.NetAmount)
                                                     </td>
+
                                                     <td>
+                                                        <a href="@Url.Action("EditFromView", new { ProductId = item.ProductId, previousAction = actionName })" onclick="if(!confirm('Are you sure?')) return false;" class="btn btn-success"><i class="fa fa-pencil"></i></a> <span>
+                                                        </span>
+
                                                         <a href="@Url.Action("DeleteFromView", new { ProductId = item.ProductId, previousAction = actionName })" onclick="if(!confirm('Are you sure?')) return false;" class="btn btn-danger"><i class="fa fa-trash"></i></a>
 
                                                     </td>

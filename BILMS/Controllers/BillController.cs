@@ -38,6 +38,7 @@ namespace BILMS.Controllers
                 TempData["BillEntryViewModel"] = billEntryViewModel;
                 GetViewBagData();
                 ViewBag.SelectedCustomers = billEntryViewModel.CustomerId;
+                ViewBag.SelectedProducts = billEntryViewModel.Detail.ProductId;
                 return View(billEntryViewModel);
             }
         }
@@ -187,6 +188,27 @@ namespace BILMS.Controllers
             billEntryViewModel.TotalDis = billEntryViewModel.TotalDis - itemToDelete.Discount;
             TempData["BillEntryViewModel"] = billEntryViewModel;
             billEntryViewModel.Detail = new BillEntryDetailVM();
+            return RedirectToAction("Create");
+        }
+
+        [HttpGet]
+        public ActionResult EditFromView(string ProductId, string previousAction)
+        {
+            BillEntryViewModel billEntryViewModel = (BillEntryViewModel)TempData.Peek("BillEntryViewModel");
+            var itemToEdit = billEntryViewModel.Details.Where(x => x.ProductId == ProductId).FirstOrDefault();
+            billEntryViewModel.Details.Remove(itemToEdit);
+            billEntryViewModel.Detail = new BillEntryDetailVM();
+
+            GetViewBagData();
+            
+            ViewBag.SelectedCustomers = billEntryViewModel.CustomerId;
+            billEntryViewModel.Detail.ProductId = ProductId;
+            billEntryViewModel.Detail.Rate = itemToEdit.Rate;
+            billEntryViewModel.Detail.Qty = itemToEdit.Qty;
+            billEntryViewModel.Detail.TotalAmount = itemToEdit.TotalAmount;
+            billEntryViewModel.Detail.Discount = itemToEdit.Discount;
+            billEntryViewModel.Detail.NetAmount = itemToEdit.NetAmount;
+            TempData["BillEntryViewModel"] = billEntryViewModel;
             return RedirectToAction("Create");
         }
 
